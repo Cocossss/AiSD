@@ -21,4 +21,5 @@ int is_expression_correct(char *str);
 double get_value(Args args[], char var, int size, int level);
 int is_arg_correct(char* str);
 int get_vars(char *str);
+void delete_list(Node** first, Node* second);
 
