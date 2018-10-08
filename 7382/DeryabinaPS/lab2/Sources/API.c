@@ -23,7 +23,7 @@ int get_vars(char *str){
 	}
     }
 
-return j; // size of unique_arg
+    return j; // size of unique_arg
 
 }
 
@@ -52,12 +52,13 @@ Node* createNode(char oper_or_var, int is_atom, int level){
     tmp->next = NULL;
     tmp->sublist = NULL;
 
-return tmp;
+    return tmp;
 }
 
 // str contains arithmetic expression
 // level - depth of recursion
 Node* createList(char *str, int level){
+    
     Spaces(level);  // spaces to show recursion
     printf("%screateList: level %d%s\n", LINE, level, END);
 
