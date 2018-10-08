@@ -516,3 +516,24 @@ int is_arg_correct(char* str){
 	
 return 1;
 }
+
+// function takes first and secod element of list
+void delete_list(Node** first, Node* second){
+
+    while(second != NULL)
+    {
+        if((*first)->is_atom == 0)
+        {
+           delete_list(&(*first)->sublist, (*first)->sublist->next); // call recursion if element isn't atom
+        }
+        printf("[free %c]\n", (*first)->var);
+        free(*first); // free first element
+        *first = second;  // move to the next element
+        second = second->next;
+    }
+
+    printf("[free %c]\n", (*first)->var);
+    free(*first); // if second = NULL, first is the last element
+    return;
+
+}
