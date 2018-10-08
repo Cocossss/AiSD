@@ -13,6 +13,7 @@ int get_vars(char *str){
 
     char unique_arg[strlen(str)/2];  // string for unique arguments
     int j = 0;
+	
     for(int i = 0; i<strlen(str); i++)
     {
 	if(isalpha(str[i]) && !strchr(unique_arg, str[i]))  // if argument isn't in unique_arg,
@@ -30,6 +31,7 @@ return j; // size of unique_arg
 // is_atom = 1 if node is atom
 // level contains depth of resursion
 Node* createNode(char oper_or_var, int is_atom, int level){
+	
     Spaces(level);    // printing spaces to show recursion's work
     printf("createNode: [is_atom = '%d', ", is_atom);
 
@@ -46,6 +48,7 @@ Node* createNode(char oper_or_var, int is_atom, int level){
 	tmp->operation = oper_or_var;
 	printf("operation = '%c']\n", oper_or_var);
     }
+	
     tmp->next = NULL;
     tmp->sublist = NULL;
 
@@ -61,6 +64,7 @@ Node* createList(char *str, int level){
     char substr[100];  // buffer for sublist
     strcpy(substr, str);
     Node* tmp;
+	
     if(str[strlen(str)-3] != ')')
     {
 	tmp = createNode(str[strlen(str)-2], 1, level);
@@ -69,7 +73,9 @@ Node* createList(char *str, int level){
     {
 	tmp = createNode(str[strlen(str)-2], 0, level);
     }
+	
     Node *head = tmp; // head contains first element of current sublist
+	
     for(int i = strlen(str)-3; i >= 0; i--)
     {
 	if(str[i] == '(')  // end of sublist
@@ -107,26 +113,35 @@ Node* createList(char *str, int level){
 		    printf("%screateList: level %d%s\n", LINE, level, END);
 		}
 	    }
+		
 	    int start = 1; // number of ')'
 	    int end = 0; // number of '('
 	    i--; // move left to scip one ')'
+		
             while(start != end) // block for passibg by sublists that have been written in list already
 	    {
 		if(str[i] == ')')
+		{	
 		    start++;
+		}
+		    
 		if(str[i] == '(')
+		{
 		    end++;
+		}
+		    
 	        if(start != end)
 		{
 		    i--;
 		}
 	    }
 	}
+	    
         if(str[i]!='(' && str[i]!=')') // if current element is argument, allocate memory for it
         {
 	    tmp->next = createNode(str[i], 1, level);
 	    tmp=tmp->next;
-         }
+        }
     }
 }
 
@@ -135,16 +150,20 @@ Node* createList(char *str, int level){
 // size of array args
 // level - depth of recursion
 double to_calculate(Args args[], Node *list, int size, int level){
+	
     int is_operation = 1;  // first element of sublist is operation "-", "+", "*", "/"
     double sum = 0;
     double multi = 1;
     double div = 1;
     double sub = 0;
     char current_operation = list->operation;
+	
     Spaces(level);
     printf("%sto_calculate: level %d, current_operation: '%c'%s\n", LINE, level, current_operation, END);
+	
     while(list != NULL){
-        if(current_operation == '+'){
+        if(current_operation == '+')
+	{
             if(is_operation == 1) // first element of sublist
             {
 	        if(list->is_atom == 0)
@@ -153,25 +172,29 @@ double to_calculate(Args args[], Node *list, int size, int level){
 		    Spaces(level);
 		    printf("%sto_calculate: level %d, current_operation: '%c'%s\n", LINE, level, current_operation, END);
 	        }
+		    
 	        is_operation = 0;
             }
             else
 	    {
 	        if(list->is_atom == 0)
 	        {
-	        sum += to_calculate(args, list->sublist, size, level+1);
-	        Spaces(level);
-		printf("%sto_calculate: level %d, current_operation: '%c'%s\n", LINE, level, current_operation, END);
+	            sum += to_calculate(args, list->sublist, size, level+1);
+	            Spaces(level);
+		    printf("%sto_calculate: level %d, current_operation: '%c'%s\n", LINE, level, current_operation, END);
 	        }
 		else
 	        {
                     sum += get_value(args, list->var, size, level); // added element
 	        }
 	    }
-	        list = list->next;
+		
+	    list = list->next;
+		
         }
 
-        if(current_operation == '*'){
+        if(current_operation == '*')
+	{
             if(is_operation == 1)
             {
                 if(list->is_atom == 0)
@@ -180,41 +203,49 @@ double to_calculate(Args args[], Node *list, int size, int level){
                     Spaces(level);
 	            printf("%sto_calculate: level %d, current_operation: '%c'%s\n", LINE, level, current_operation, END);
                 }
+		    
 	        is_operation = 0;
+		    
             }
  	    else
-	{
-	    if(list->is_atom == 0)
 	    {
-                multi *= to_calculate(args, list->sublist, size, level+1);
-		Spaces(level);
-		printf("%sto_calculate: level %d, current_operation: '%c'%s\n", LINE, level, current_operation, END);
-            }
-            else
-            {
-                multi *= get_value(args, list->var, size, level);
-            }
-	}
-	list = list->next;
-    }
-    if(current_operation == '/')
-    {
-	if(is_operation == 1)
-	{
-	    if(list->is_atom == 0)
-	    {
-                if(list->next == NULL) // arguments are reversed, so the last argument is dividend
-                {
-                    div *= to_calculate(args, list->sublist, size, level+1);
+	        if(list->is_atom == 0)
+	        {
+                    multi *= to_calculate(args, list->sublist, size, level+1);
+		    Spaces(level);
+		    printf("%sto_calculate: level %d, current_operation: '%c'%s\n", LINE, level, current_operation, END);
                 }
-                else // if argument isn't the last, it is divider
+                else
                 {
-                    div *= 1/to_calculate(args, list->sublist, size, level+1);
+                    multi *= get_value(args, list->var, size, level);
                 }
-		Spaces(level);
-		printf("%sto_calculate: level %d, current_operation: '%c'%s\n", LINE, level, current_operation, END);
 	    }
-	    is_operation = 0;
+		
+	    list = list->next;
+        }
+	    
+        if(current_operation == '/')
+        {
+	    if(is_operation == 1)
+	    {
+	        if(list->is_atom == 0)
+	        {
+                    if(list->next == NULL) // arguments are reversed, so the last argument is dividend
+                    {
+                        div *= to_calculate(args, list->sublist, size, level+1);
+                    }
+                    else // if argument isn't the last, it is divider
+                    {
+                        div *= 1/to_calculate(args, list->sublist, size, level+1);
+                    }
+			
+		    Spaces(level);
+		    printf("%sto_calculate: level %d, current_operation: '%c'%s\n", LINE, level, current_operation, END);
+			
+	        }
+		    
+	        is_operation = 0;
+		    
             }
 	    else
 	    {
@@ -228,8 +259,10 @@ double to_calculate(Args args[], Node *list, int size, int level){
                     {
                         div *= 1/to_calculate(args, list->sublist, size, level+1);
                     }
+			
 		    Spaces(level);
 		    printf("%sto_calculate: level %d, current_operation: '%c'%s\n", LINE, level, current_operation, END);
+			
 	        }
 	        else
 	        {
@@ -243,7 +276,9 @@ double to_calculate(Args args[], Node *list, int size, int level){
                     }
                 }
 	    }
+		
 	    list = list->next;
+		
         }
 	if(current_operation == '-')
 	{
@@ -259,10 +294,14 @@ double to_calculate(Args args[], Node *list, int size, int level){
 		    {
 		        sub -= to_calculate(args, list->sublist, size, level+1);
 		    }
+			
 		Spaces(level);
 		printf("%sto_calculate: level %d, current_operation: '%c'%s\n", LINE, level, current_operation, END);
+			
                 }
+		    
                 is_operation = 0;
+		    
             }
 	    else
 	    {
@@ -276,8 +315,10 @@ double to_calculate(Args args[], Node *list, int size, int level){
 		    {
 			sub += to_calculate(args, list->sublist, size, level+1);
 		    }
+			
 		    Spaces(level);
 		    printf("%sto_calculate: level %d, current_operation: '%c'%s\n", LINE, level, current_operation, END);
+			
                 }
                 else
                 {
@@ -291,7 +332,9 @@ double to_calculate(Args args[], Node *list, int size, int level){
 		    }
                 }
 	    }
+		
 	    list = list->next;
+		
         }
     }
     Spaces(level);
@@ -301,35 +344,42 @@ double to_calculate(Args args[], Node *list, int size, int level){
 	printf("Result of this level: %lg\n", div);
 	return div;
     }
+	
     if(current_operation == '+')
     {
 	printf("Result of this level: %lg\n", sum);
 	return sum;
     }
+	
     if(current_operation == '*')
     {
 	printf("Result of this level: %lg\n", multi);
 	return multi;
     }
+	
     if(current_operation == '-')
     {
 	printf("Result of this level: %lg\n", sub);
 	return sub;
     }
+	
 }
 
 // print spaces according to the depth of recursion
 void Spaces(int level){
+	
     for(int i = 0; i < level; i++)
     {
         printf("   ");
     }
-return;
+	
+    return;
 }
 
 // function takes 1 argument - arithmetic expression
 int is_expression_correct(char *str){
-    int opening = 0; // number if "("
+	
+    int opening = 0; // number of "(
     int closing = 0; // number of ")"
     int args = 0; // number of arguments in exppression
 
@@ -341,39 +391,48 @@ int is_expression_correct(char *str){
 
     for(int i = 0; i < strlen(str); i++)
     {
+	    
 	if(isalpha(str[i]))
 	{
 	    args += 1;
 	}
+	    
 	if(str[i] == '(')
 	{
 	    opening += 1;
 	}
+	    
 	if(str[i] == ')')
 	{
 	    closing += 1;
 	}
+	    
 	if(str[i] == ' ')
 	{
 	    printf("Unacceptable symbol: ' '!\n");
 	    return 0;
 	}
+	    
 	if(str[i] == ')' && !(str[i-1] == '/' || str[i-1] == '*' || str[i-1] == '+' || str[i-1] == '-'))
 	{
 	    printf("Operation before the bracket ')' is missed!\n");
 	    return 0;
 	}
+	    
 	if(str[i] != '(' && str[i] != ')' && str[i+1] != ')' && !isalpha(str[i]))
 	{
 	    printf("Arguments must be a letter (a, b, c,..)!\n");
 	    return 0;
 	}
+	    
     }
+	
     if(opening != closing)
     {
 	printf("Number of opening and closing brackets must be same!\n");
 	return 0;
     }
+	
     if(args == 0)
     {
 	printf("Where are arguments??\n");
@@ -407,20 +466,24 @@ double get_value(Args args[], char var, int size, int level){
 int is_arg_correct(char* str){
 
     int minos; // contains index of "-"
+	
     if(str[strlen(str)-1] == '\n')
     {
 	str[strlen(str)-1] = '\0';
     }
+	
     if(!isalpha(str[0]))
     {
 	printf("Arguments must be a letter!\n");
 	return 0;
     }
+	
     if(str[1] != ' ')
     {
 	printf("Space between argument and its value!\n");
 	return 0;
     }
+	
     if(str[2] == '-')
     {
 	minos = 3;
@@ -429,6 +492,7 @@ int is_arg_correct(char* str){
     {
 	minos = 2;
     }
+	
     for(int i = minos; i<strlen(str); i++)
     {
 	if(str[i] == '.' && i == minos) // if number starts with "."
@@ -436,15 +500,19 @@ int is_arg_correct(char* str){
 	    printf("Values must be a number!\n");
 	    return 0;
 	}
+	    
 	if(str[i] == '.')
 	{
 	    continue;
 	}
+	    
 	if(!isdigit(str[i]))
 	{
 	    printf("Values must be a number!\n");
 	    return 0;
 	}
+	    
     }
+	
 return 1;
 }
