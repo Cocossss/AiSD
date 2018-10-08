@@ -10,6 +10,7 @@ int main(){
     char expression[100];
     char args_input[15];  // for reading 1 argument
     char c;
+	
     printf("Hello! This is some kind of a calculator.\nI can add(+), subtract(-), divide(/) and multiply(*) numbers.\nNote: (a-)=a, (a+)=a, (a/)=a, (a*)=a\nEnter postfix expression (something like ""(ab(cd*)+)"" ): ");
     fgets(expression, 98, stdin);
     if(expression[strlen(expression)-1] == '\n')
@@ -23,8 +24,10 @@ int main(){
     }
 
     printf("Enter arguments and their values, each with a new line (example:a 10): \n");
+	
     int size = get_vars(expression); // number of unique arguments
     Args args[size];
+	
     for(int i = 0; i<size; i++)  // filling array with arguments and their values
     {
 	fgets(args_input,13,stdin);
