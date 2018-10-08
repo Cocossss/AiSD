@@ -47,12 +47,18 @@ int main(){
 
     FILE *f = fopen("./output.txt", "w+");  // writting result in output.txt
     fprintf(f, "Expression: %s\n", expression);
+	
     for(int i = 0; i<size; i++)
     {
 	fprintf(f, "%c = %g\n", args[i].var, args[i].value);
     }
+	
     fprintf(f, "Expression is equally %g\n", result);
     fclose(f);
+	
+    printf("Deleting list...\n\n");
+    delete_list(&list, list->next);
+	
 return 0;
 }
 
