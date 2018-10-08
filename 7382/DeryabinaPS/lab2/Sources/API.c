@@ -11,7 +11,7 @@
 // and returns number of unique arguments
 int get_vars(char *str){
 
-    char unique_arg[strlen(str)/2];  // string for unique arguments
+    char *unique_arg = calloc(strlen(str), sizeof(char));  // string for unique arguments
     int j = 0;
 	
     for(int i = 0; i<strlen(str); i++)
@@ -22,7 +22,8 @@ int get_vars(char *str){
 	    j++;
 	}
     }
-
+    
+    free(unique_arg);	
     return j; // size of unique_arg
 
 }
