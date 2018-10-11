@@ -21,7 +21,7 @@ int main(){
     while(y_n[0] != 'Y' && y_n[0] != 'N')  // if read neither 'Y' or 'N' repeat reading
     {
 	printf("(Y/N): ");
-        fgets(y_n, 8, stdin);
+	fgets(y_n, 8, stdin);
     }
 
     if(y_n[0] == 'Y') // if read 'Y', open file input.txt
