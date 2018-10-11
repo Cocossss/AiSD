@@ -1,14 +1,14 @@
 typedef struct Node{
-    union{
+    union{               // contains operation "-", "+", "/", "*" or an argument
 	char operation;
 	char var;
     };
-    int is_atom;
-    struct Node *next;
-    struct  Node *sublist;
+    int is_atom;         // = 1, if nide is atom
+    struct Node *next;   // next element
+    struct  Node *sublist;  // ponter on sublist
 } Node;
 
-typedef struct  Args{
+typedef struct  Args{   // contains argument and its value
     double value;
     char var;
 }Args;
@@ -22,4 +22,3 @@ double get_value(Args args[], char var, int size, int level);
 int is_arg_correct(char* str);
 int get_vars(char *str);
 void delete_list(Node** first, Node* second);
-
