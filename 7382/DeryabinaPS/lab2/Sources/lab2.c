@@ -101,7 +101,7 @@ int main(){
     fclose(f);
 
     printf("\nDeleting list...\n\n");  // deleting the list
-    delete_list(&list, list->next);
+    delete_list(list, list->next);
 
     printf("\nYour expression is equally %g\n", result); // show the result
 

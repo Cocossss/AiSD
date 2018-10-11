@@ -503,27 +503,27 @@ int is_arg_correct(char* str){
     return 1;
 }
 
-void delete_list(Node** first, Node* second){
+void delete_list(Node* first, Node* second){
 
     while(second != NULL)
     {
-	if((*first)->is_atom == 0)
+	if(first->is_atom == 0)
 	{
-	   delete_list(&(*first)->sublist, (*first)->sublist->next);
+	   delete_list(first->sublist, first->sublist->next);
 	}
-	printf("[free %c]\n", (*first)->var);
- 	free(*first);
-	*first = second;
+	printf("[free %c]\n", first->var);
+ 	free(first);
+	first = second;
 	second = second->next;
     }
 
-    if((*first)->is_atom == 0)
+    if(first->is_atom == 0)
     {
-	delete_list(&(*first)->sublist, (*first)->sublist->next);
+	delete_list(first->sublist, first->sublist->next);
     }
 
-    printf("[free %c]\n", (*first)->var);
-    free(*first);
+    printf("[free %c]\n", first->var);
+    free(first);
     return;
 
 }
