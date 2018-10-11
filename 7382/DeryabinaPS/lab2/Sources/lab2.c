@@ -100,7 +100,7 @@ int main(){
     fprintf(f, "Expression is equally %g\n", result);
     fclose(f);
 
-    printf("Deleting list...\n");  // deleting the list
+    printf("\nDeleting list...\n\n");  // deleting the list
     delete_list(&list, list->next);
 
     printf("\nYour expression is equally %g\n", result); // show the result
@@ -108,5 +108,3 @@ int main(){
 
     return 0;
 }
-
-
