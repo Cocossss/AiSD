@@ -67,7 +67,7 @@ int main()
         return 0;
     }
 
-    else if (format == 1) {
+    else if (format == 1) { // inpit from file
         FILE* f;
         if ((f = fopen("input.txt", "r")) == NULL) {
             printf("Couldn't open input.txt\n");
@@ -78,7 +78,7 @@ int main()
         fclose(f);
     }
 
-    else if (format == 2) {
+    else if (format == 2) { // input from the keyboard
         printf("Enter your text: ");
         fgets(text, 1000, stdin);
     }
@@ -95,12 +95,12 @@ int main()
             printf("push: '%c' [index: %d]\n", text[i], i);
         }
 
-        if (text[i] == '{') {
+        if (text[i] == '{') { // push opening brackiet in stack
             push(&stack, text[i], i);
             printf("push: '%c' [index: %d]\n", text[i], i);
         }
 
-        if (text[i] == '[') {
+        if (text[i] == '[') { // push opening brackiet in stack
             push(&stack, text[i], i);
             printf("push: '%c' [index: %d]\n", text[i], i);
         }
@@ -120,7 +120,7 @@ int main()
         }
         if (text[i] == '}') {
 
-            if (top(stack) != '{') {
+            if (top(stack) != '{') {  // if types of brackets aren't same
                 is_wrong = 1;
                 wrong_symb[size] = i;
                 size++;
@@ -133,7 +133,7 @@ int main()
         }
         if (text[i] == ']') {
 
-            if (top(stack) != '[') {
+            if (top(stack) != '[') {  // if types of brackets aren't same
                 is_wrong = 1;
                 wrong_symb[size] = i;
                 size++;
