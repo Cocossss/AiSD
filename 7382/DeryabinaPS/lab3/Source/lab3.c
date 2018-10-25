@@ -168,12 +168,18 @@ int main()
         pop(&stack);
     }
 
+    FILE *f = fopen("output.txt", "w");
+
     if (is_wrong == 0) {
         printf("\n\nText is correct \n");
+	fprintf(f, "You entered: %s\n\nText is correct\n", text);
     }
     else {
         printf("\n\nText isn't correct \n");
+        fprintf(f, "You entered: %s\n\nText isn't correct\n", text);
     }
+
+    fclose(f);
 
     return 0;
 }
