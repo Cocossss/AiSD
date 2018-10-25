@@ -21,6 +21,7 @@ void push(Stack* stack, char br, int ind)
     list->index = ind;
     list->next = stack->head;   // new element is top of list
     stack->head = list;         // top of stack is new element
+    printf("push:   '%c' [index: %d] is top of stack\n", br, ind);
 }
 
 char pop(Stack* stack)
@@ -31,6 +32,11 @@ char pop(Stack* stack)
     List* list = stack->head;  // save contain of top of stack
     char br = list->bracket;
     stack->head = list->next;  // top of stack is next element in list
+    printf("pop: bracket: '%c', index: %d \n", br, list->index);
+    if(stack->head != NULL)
+        printf("'%c' [index: %d] is top of stack\n", stack->head->bracket, stack->head->index);
+    else
+        printf("stack is empty\n\n");
     free(list);
 
     return br;
@@ -88,21 +94,21 @@ int main()
     Stack stack = { NULL }; // init stack
 
     int size = 0; // size for wrong_symb
+
+    printf("Analysing text...\n\n");
+
     for (int i = 0; i < strlen(text); i++) {
 
         if (text[i] == '(') { // push opening brackiet in stack
             push(&stack, text[i], i);
-            printf("push: '%c' [index: %d]\n", text[i], i);
         }
 
         if (text[i] == '{') { // push opening brackiet in stack
             push(&stack, text[i], i);
-            printf("push: '%c' [index: %d]\n", text[i], i);
         }
 
         if (text[i] == '[') { // push opening brackiet in stack
             push(&stack, text[i], i);
-            printf("push: '%c' [index: %d]\n", text[i], i);
         }
 
         if (text[i] == ')') {
@@ -114,7 +120,7 @@ int main()
             }
 
             else {
-                printf("pop: '('  current_br: ')' [index: %d]\n", i);
+		printf("\ncurrent bracket: '%c', index %d\n", text[i], i);
                 pop(&stack);
             }
         }
@@ -127,7 +133,7 @@ int main()
             }
 
             else {
-                printf("pop: '{'  current_br: '}' [index: %d]\n", i);
+		printf("\ncurrent bracket: '%c', index %d\n", text[i], i);
                 pop(&stack);
             }
         }
@@ -140,7 +146,7 @@ int main()
             }
 
             else {
-                printf("pop: '['  current_br: ']' [index: %d]\n", i);
+		printf("\ncurrent bracket: '%c', index %d\n", text[i], i);
                 pop(&stack);
             }
         }
@@ -151,6 +157,9 @@ int main()
     for (int i = 0; i < size; i++) { // printing closing brackets, that hasn't opening brackets
         printf("No opening bracket for '%c' [index: %d]\n", text[wrong_symb[i]], wrong_symb[i]);
     }
+
+    if(top(stack) != 0)
+        printf("Freeing stack...\n\n");
 
     while (top(stack) != 0) {  // printint opening brackets, that hasn't closing brackets
 
