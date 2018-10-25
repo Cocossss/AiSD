@@ -4,13 +4,13 @@
 #include <string.h>
 
 typedef struct List {
-    char bracket;       // symbol of bracket
-    int index;          // symbol's index in string
+    char bracket; // symbol of bracket
+    int index; // symbol's index in string
     struct List* next;
 } List;
 
 typedef struct Stack {
-    struct List* head;  // top of stack
+    struct List* head; // top of stack
 } Stack;
 
 void push(Stack* stack, char br, int ind)
@@ -19,8 +19,8 @@ void push(Stack* stack, char br, int ind)
     List* list = malloc(sizeof(List)); // new element in list
     list->bracket = br;
     list->index = ind;
-    list->next = stack->head;   // new element is top of list
-    stack->head = list;         // top of stack is new element
+    list->next = stack->head; // new element is top of list
+    stack->head = list; // top of stack is new element
     printf("push:   '%c' [index: %d] is top of stack\n", br, ind);
 }
 
@@ -29,11 +29,11 @@ char pop(Stack* stack)
 
     if (stack->head == NULL) // if stack is empty
         return 0;
-    List* list = stack->head;  // save contain of top of stack
+    List* list = stack->head; // save contain of top of stack
     char br = list->bracket;
-    stack->head = list->next;  // top of stack is next element in list
+    stack->head = list->next; // top of stack is next element in list
     printf("pop: bracket: '%c', index: %d \n", br, list->index);
-    if(stack->head != NULL)
+    if (stack->head != NULL)
         printf("'%c' [index: %d] is top of stack\n", stack->head->bracket, stack->head->index);
     else
         printf("stack is empty\n\n");
@@ -44,7 +44,7 @@ char pop(Stack* stack)
 
 char top(Stack stack)
 {
-    if (stack.head == NULL)  // if stack is empty
+    if (stack.head == NULL) // if stack is empty
         return 0;
     return stack.head->bracket;
 }
@@ -60,7 +60,7 @@ int main()
     int is_wrong = 0;
     int format;
     char text[1002] = { 0 };
-    int wrong_symb[500];  // contains index of closing bracket, that hasn't match opening bracket
+    int wrong_symb[500]; // contains index of closing bracket, that hasn't match opening bracket
 
     printf("Hello! This is text's analyzer. I can check your text with brackets for correctness.\nValid brackets: '(', ')', '{', '}', '[', ']'.\nNote: max size of text - 1000 symbols.\n");
 
@@ -120,33 +120,33 @@ int main()
             }
 
             else {
-		printf("\ncurrent bracket: '%c', index %d\n", text[i], i);
+                printf("\ncurrent bracket: '%c', index %d\n", text[i], i);
                 pop(&stack);
             }
         }
         if (text[i] == '}') {
 
-            if (top(stack) != '{') {  // if types of brackets aren't same
+            if (top(stack) != '{') { // if types of brackets aren't same
                 is_wrong = 1;
                 wrong_symb[size] = i;
                 size++;
             }
 
             else {
-		printf("\ncurrent bracket: '%c', index %d\n", text[i], i);
+                printf("\ncurrent bracket: '%c', index %d\n", text[i], i);
                 pop(&stack);
             }
         }
         if (text[i] == ']') {
 
-            if (top(stack) != '[') {  // if types of brackets aren't same
+            if (top(stack) != '[') { // if types of brackets aren't same
                 is_wrong = 1;
                 wrong_symb[size] = i;
                 size++;
             }
 
             else {
-		printf("\ncurrent bracket: '%c', index %d\n", text[i], i);
+                printf("\ncurrent bracket: '%c', index %d\n", text[i], i);
                 pop(&stack);
             }
         }
@@ -158,10 +158,10 @@ int main()
         printf("No opening bracket for '%c' [index: %d]\n", text[wrong_symb[i]], wrong_symb[i]);
     }
 
-    if(top(stack) != 0)
+    if (top(stack) != 0)
         printf("Freeing stack...\n\n");
 
-    while (top(stack) != 0) {  // printint opening brackets, that hasn't closing brackets
+    while (top(stack) != 0) { // printint opening brackets, that hasn't closing brackets
 
         is_wrong = 1;
         printf("No closing bracket for '%c' [index: %d]\n", stack.head->bracket, stack.head->index);
