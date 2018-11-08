@@ -79,8 +79,38 @@ int main()
             printf("   %d: left = %d, '%c', right = %d\n", i, tree2[i].left, tree2[i].data, tree2[i].right);
     }
 
-    are_similar(tree1, tree2, 0, &is_equal);
-    are_mirrored(tree1, tree2, 0, &is_symm);
+    FILE *f = fopen("output.txt", "w");
 
+    fprintf(f, "Input:\n  %s\n  %s\n\nOutput:\n", TreeStr1, TreeStr2);
+
+    if (are_similar(tree1, tree2, 0, &is_equal) == 1) {
+        fprintf(f, "  are similar\n");
+    }
+    else {
+        fprintf(f, "  aren't similar\n");
+    }
+
+    if (is_equal == 1) {
+        fprintf(f, "  are equal\n");
+    }
+    else {
+        fprintf(f, "  aren't equal\n");
+    }
+
+    if (are_mirrored(tree1, tree2, 0, &is_symm) == 1) {
+        fprintf(f, "  are mirrored\n");
+    }
+    else {
+        fprintf(f, "  aren't mirrored\n");
+    }
+
+    if (is_symm == 1) {
+        fprintf(f, "  are symmetrical\n");
+    }
+    else {
+        fprintf(f, "  aren't symmetrical\n");
+    }
+
+    fclose(f);
     return 0;
 }
