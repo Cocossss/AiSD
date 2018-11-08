@@ -8,8 +8,7 @@
 int main()
 {
 
-    int size1;
-    int size2;
+    int format; // format of input
     int is_symm = 1;
     int is_equal = 1;
     BinTree tree1[MAX_SIZE] = { 0 };
@@ -18,25 +17,49 @@ int main()
     char TreeStr2[MAX_SIZE * 2] = { 0 };
 
     printf("Hello! This is binary tree comparator. I define two binary trees as similar, equal, mirrored or  symmetric.\nEnter trees in bracket short form without spaces. Note: <empty tree> = '(#)'. Rules of short form:\n(<root> <tree> <#>) = (<root> <tree>)\n(<root> ##) = (<root>)\n");
-    printf("1 tree: ");
+    printf("Type '1', if you want input data from file input.txt, '2' - from the keyboard: ");
+    scanf("%d", &format);
+    char c = getchar(); // takes '\n'
 
-    fgets(TreeStr1, MAX_SIZE * 2, stdin);
-
-    if (TreeStr1[strlen(TreeStr1) - 1] == '\n') { // deleting '\n' if it exists
-        TreeStr1[strlen(TreeStr1) - 1] = '\0';
-    }
-    if (!(is_correct(TreeStr1))) {  // check for correctness
+    if (format != 1 && format != 2) {
+        printf("Wrong input format!\n");
         return 0;
     }
-    printf("2 tree: ");
-    fgets(TreeStr2, MAX_SIZE * 2, stdin);
+    else if (format == 1) { // input from file
+        FILE* f;
 
-    if (TreeStr2[strlen(TreeStr2) - 1] == '\n') { // deleting '\n' if it exists
-        TreeStr2[strlen(TreeStr2) - 1] = '\0';
+        if ((f = fopen("input.txt", "r")) == NULL) {
+            printf("Couldn't open input.txt\n");
+            return 0;
+        }
+        fgets(TreeStr1, MAX_SIZE * 2, f);
+        fgets(TreeStr2, MAX_SIZE * 2, f);
+        fclose(f);
     }
+    else if (format == 2) {
 
-    if (!is_correct(TreeStr2)) {  // check for correctness
-        return 0;
+        printf("1 tree: ");
+
+        fgets(TreeStr1, MAX_SIZE * 2, stdin);
+
+        if (TreeStr1[strlen(TreeStr1) - 1] == '\n') { // deleting '\n' if it exists
+            TreeStr1[strlen(TreeStr1) - 1] = '\0';
+        }
+
+        if (!(is_correct(TreeStr1))) {  // check for correctness
+            return 0;
+        }
+
+        printf("2 tree: ");
+        fgets(TreeStr2, MAX_SIZE * 2, stdin);
+
+        if (TreeStr2[strlen(TreeStr2) - 1] == '\n') { // deleting '\n' if it exists
+            TreeStr2[strlen(TreeStr2) - 1] = '\0';
+        }
+
+        if (!is_correct(TreeStr2)) {  // check for correctness
+            return 0;
+        }
     }
 
     printf("\nYou entered: %s\n             %s\n", TreeStr1, TreeStr2);

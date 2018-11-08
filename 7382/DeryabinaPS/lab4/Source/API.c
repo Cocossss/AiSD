@@ -170,7 +170,7 @@ int CreateTree(BinTree* bt, char* str, int level, int size)
         
         if (str[i] == '(' && (str[i + 2] == '(' || str[i + 2] == '#')) {  // if current elem isn't atom
             Space(level);
-            printf("[levele %d]:", level);
+            printf("[levele %d]  ", level);
             
             if (CreateElem(bt, str[i + 1], size * 2 + LeftRight, 0) == 0)  // fill array with current elem
                 return 0;
@@ -202,7 +202,7 @@ int CreateTree(BinTree* bt, char* str, int level, int size)
         }
         if (str[i] == '(' && str[i + 2] == ')') {  // if current elem is atom
             Space(level);
-            printf("[level %d]", level);
+            printf("[level %d]  ", level);
             
             if (CreateElem(bt, str[i + 1], size * 2 + LeftRight, 1) == 0)  // fill array with current elem
                 return 0;
