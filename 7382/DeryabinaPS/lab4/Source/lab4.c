@@ -22,30 +22,30 @@ int main()
 
     fgets(TreeStr1, MAX_SIZE * 2, stdin);
 
-    if (TreeStr1[strlen(TreeStr1) - 1] == '\n') {
+    if (TreeStr1[strlen(TreeStr1) - 1] == '\n') { // deleting '\n' if it exists
         TreeStr1[strlen(TreeStr1) - 1] = '\0';
     }
-    if (!(is_correct(TreeStr1))) {
+    if (!(is_correct(TreeStr1))) {  // check for correctness
         return 0;
     }
     printf("2 tree: ");
     fgets(TreeStr2, MAX_SIZE * 2, stdin);
 
-    if (TreeStr2[strlen(TreeStr2) - 1] == '\n') {
+    if (TreeStr2[strlen(TreeStr2) - 1] == '\n') { // deleting '\n' if it exists
         TreeStr2[strlen(TreeStr2) - 1] = '\0';
     }
 
-    if (!is_correct(TreeStr2)) {
+    if (!is_correct(TreeStr2)) {  // check for correctness
         return 0;
     }
 
     printf("\nYou entered: %s\n             %s\n", TreeStr1, TreeStr2);
 
-    CreateTree(tree1, TreeStr1, 0, 0);
+    CreateTree(tree1, TreeStr1, 0, 0);  // creating trees
     CreateTree(tree2, TreeStr2, 0, 0);
 
     printf("\nTree 1: \n");
-    for (int i = 0; i < MAX_SIZE; i++) {
+    for (int i = 0; i < MAX_SIZE; i++) {  // showing trees
         if (tree1[i].data != 0)
             printf("   %d: left = %d, '%c', right = %d\n", i, tree1[i].left, tree1[i].data, tree1[i].right);
     }
