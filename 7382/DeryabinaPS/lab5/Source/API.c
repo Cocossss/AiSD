@@ -150,6 +150,7 @@ Node* InsertRoot(Node* tree, void* key, size_t size, int level)
         float num_key = *(float*)key; // saving float value of key
 
         if (num_key < *(float*)(tree->key)) { // if key < key of current node make recursion call for left subtree
+            
             printf("%g < %g\n", num_key, *(float*)(tree->key));
             tree->left = InsertRoot(tree->left, key, size, level + 1);
             tree = RotateRight(tree, size, level + 1); // rotation right to move key in root
@@ -158,7 +159,8 @@ Node* InsertRoot(Node* tree, void* key, size_t size, int level)
         }
 
         else { // else - make recursion call for right subtree
-            printf("%g >= %g\n", num_key, *(float*)(tree->key));
+            
+            printf("%g > %g\n", num_key, *(float*)(tree->key));
             tree->right = InsertRoot(tree->right, key, size, level + 1);
             tree = RotateLeft(tree, size, level + 1); // rotation left to move key in root
 
@@ -179,7 +181,7 @@ Node* InsertRoot(Node* tree, void* key, size_t size, int level)
         }
         else if ((int)ch_key - (int)tree_key >= 0) {
 
-            printf("%c >= %c\n", ch_key, tree_key);
+            printf("%c > %c\n", ch_key, tree_key);
             tree->right = InsertRoot(tree->right, key, size, level + 1);
             tree = RotateLeft(tree, size, level + 1);
 
@@ -221,12 +223,14 @@ Node* Insert(Node* tree, void* key, size_t size, int level)
         float num_key = *(float*)key;
 
         if (num_key < *(float*)(tree->key)) {
+            
             printf("%g < %g\n", num_key, *(float*)(tree->key));
             tree->left = Insert(tree->left, key, size, level + 1);
         }
 
         else {
-            printf("%g >= %g\n", num_key, *(float*)(tree->key));
+            
+            printf("%g > %g\n", num_key, *(float*)(tree->key));
             tree->right = Insert(tree->right, key, size, level + 1);
         }
     }
@@ -244,7 +248,7 @@ Node* Insert(Node* tree, void* key, size_t size, int level)
 
         else if ((int)ch_key - (int)tree_key >= 0) {
 
-            printf("%c >= %c [%d]\n", ch_key, tree_key, (int)ch_key - (int)tree_key);
+            printf("%c > %c [%d]\n", ch_key, tree_key, (int)ch_key - (int)tree_key);
             tree->right = Insert(tree->right, key, size, level + 1);
         }
     }
